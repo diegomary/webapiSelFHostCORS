@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <script src="Scripts/jquery-2.1.0.js"></script>
+    <script src="Scripts/jquery-ui-1.10.4.js"></script>
+    <title></title>
+    <script type="text/javascript">
+        $().ready(function ()
+        {
+            $("#GetdData").click(GetDataFromService);
+            $("#SendData").click(SendStringToService);
+            $("#SendEntity").click(SendEntityToService);
+        });
+        function GetDataFromService() {
+            var alpha = "Hello this is a test";
+            $.ajax({
+                    url: "http://localhost:9000/api/service/get/",
+                    type: "GET",                  
+                    beforeSend: function () { alert("Sending data"); },
+                    success: function (result)
+                    {
+                        alert(result);
+                    }                
+            });
+        }
+        function SendStringToService() {
+         //   $.post('http://localhost:9000/api/service/PostJsonString/', "=" + 'DiegoMAriaVAlentina');
+         //   $.post('http://localhost:9000/api/service/PostJsonString/', { '': 'This good data passed' });
+
+          // In web API The sintax of parameter passing is different and it must be as follows 
+            var datatosend = "This is the string that must be posted to the web api";
+                $.ajax({                
+                url: "http://localhost:9000/api/service/PostString/",
+                type: "POST",
+                data: { '': datatosend},
+                beforeSend: function () { alert("Sending data"); },
+                success: function (result) {
+                    alert("Diego MAry");
+                }
+            });
+        }
+        function SendEntityToService() {           
+            var datatosend = {Name:'Diego And MAry',Email:'diego@dmm888.com',Notes:'These are the notes'};
+            $.ajax({
+                url: "http://localhost:9000/api/service/PostEntity/",
+                type: "POST",
+                contenttype: "application/json; charset=utf-8",
+                data:  datatosend ,
+                beforeSend: function () { alert("Sending data"); },
+                success: function (result) {
+                alert(result);
+                }
+            });
+        }
+      </script>
+</head>
+<body>
+    <p><input style="width:450px;" type="button" value="Get Data using Ajax Cross Domain to a self Hosted WEB API" id="GetdData"></p>
+    <p><input style="width:450px;" type="button" value="Send Data using Ajax Cross Domain to a self Hosted WEB API" id="SendData"></p>
+    <p><input style="width:450px;" type="button" value="Send Entity Person using Ajax Cross Domain to a self Hosted WEB API" id="SendEntity"></p>
+</body>
+</html>
