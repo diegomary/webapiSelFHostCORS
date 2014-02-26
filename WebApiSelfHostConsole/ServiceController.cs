@@ -58,8 +58,20 @@ namespace WebApiSelfHostConsole
         // GET api/values/5       Here Get rescues a specific resource
         public string Get(int id)
         {
+            if (!Authenticate()) return "Unauthorized";            
             return "Diego Aldo Burlando";
         }
+
+        private bool Authenticate()
+        {
+            string base64 = Request.Headers.Authorization.Parameter;
+            byte[] cred = Convert.FromBase64String(base64);
+            string[] credentials = System.Text.Encoding.ASCII.GetString(cred).Split(':');
+            string username = credentials[0];
+            string password = credentials[1];
+            if (username.Equals("username") && password.Equals("password")) return true; else return false;
+        }
+
         // POST api/values      POST is used to Create a new resource
         public void Post([FromBody]string value)
         {
